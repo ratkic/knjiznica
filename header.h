@@ -1,14 +1,15 @@
 #ifndef HEADER_H
 #define HEADER_H
 
-typedef struct knjiga{
+//10
+typedef struct knjiga {
 	char naslov[50];
 	char autor[50];
 	char vrsta[30];
 	int godina; //ili char
 }KNJIGA;
 
-void izbornik(int izbor);
+//void izbornik(int izbor);
 int dodajKnjigu();
 /*
 void ispisKnjiga();
