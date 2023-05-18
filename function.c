@@ -4,7 +4,7 @@
 #include <string.h>
 #include "header.h"
 
-
+/*
 void izbornik(int izbor) {
 	switch (izbor) {
 	case 1:
@@ -46,14 +46,14 @@ void izbornik(int izbor) {
 	default:
 		printf("Krivi unos!");
 	}
-}
+}*/
 
 
 int dodajKnjigu() {
 	FILE* fp = NULL;
-	KNJIGA* pKnjiga = NULL;
-	pKnjiga = (KNJIGA*)malloc(sizeof(KNJIGA));
-	int brojKnjiga;
+	KNJIGA* pKnjiga = NULL;                                 //9
+	pKnjiga = (KNJIGA*)malloc(sizeof(KNJIGA));              //14
+	int brojKnjiga;                                         //4
 	if (pKnjiga == NULL) {
 		printf("Greska pri alokaciji memorije.\n");
 		return 1;
@@ -68,18 +68,18 @@ int dodajKnjigu() {
 	printf("Unesite godinu izdanja knjige: ");
 	scanf("%d", &pKnjiga->godina);
 
-	fp = fopen("knjiznica.bin", "rb");
+	fp = fopen("knjiznica.bin", "rb");                      //16
 	if (fp == NULL) {
 		fp = fopen("knjiznica.bin", "wb");
 		brojKnjiga = 1;
 		fwrite(&brojKnjiga, sizeof(int), 1, fp);
 		fwrite(pKnjiga, sizeof(KNJIGA), 1, fp);
-		fclose(fp);
+		fclose(fp);                                         //16
 	}
 	else {
 		fread(&brojKnjiga, sizeof(int), 1, fp);
 		KNJIGA knjiga;
-		int postoji = 0;
+		int postoji = 0;                         
 		for (int i = 0; i < brojKnjiga; i++) {
 			fread(&knjiga, sizeof(KNJIGA), 1, fp);
 			if (strcmp(knjiga.naslov, pKnjiga->naslov) == 0) {
@@ -91,113 +91,24 @@ int dodajKnjigu() {
 		if (!postoji) {
 			fclose(fp);
 			fp = fopen("knjiznica.bin", "rb+");
-			if (fp == NULL) {
+			if (ferror(fp)) {                                    //19
 				printf("Greska pri otvaranju datoteke.\n");
 				return 1;
 			}
 			brojKnjiga++;
-			fseek(fp, 0, SEEK_SET);
+			fseek(fp, 0, SEEK_SET);                              //17
 			fwrite(&brojKnjiga, sizeof(int), 1, fp);
-			fseek(fp, 0, SEEK_END);
+			fseek(fp, 0, SEEK_END);                              //17
 			fwrite(pKnjiga, sizeof(KNJIGA), 1, fp);
 			fclose(fp);
 			printf("Uspjesno dodana nova knjiga.\n");
 		}
 	}
 
-	free(pKnjiga);
+	free(pKnjiga);  //15
 
 	return 0;
 }
 
 
 
-
-
-
-
-/*
-int dodajKnjigu() {
-	FILE* fp = NULL;
-	int brojKnjiga;
-	KNJIGA* pKnjiga = NULL;
-	pKnjiga = (KNJIGA*)malloc(sizeof(KNJIGA));
-	if (pKnjiga == NULL) {
-		printf("Greska pri alokciji memorije!\n");
-		return 1;
-	}
-
-	printf("Unesite naslov knjige: \n");
-	scanf(" %49[^\n]", pKnjiga->naslov);
-	printf("Unesite ime autora: \n");
-	scanf(" %49[^\n]", pKnjiga->autor);
-	printf("Unesite vrstu knjige: \n");
-	scanf(" %29[^\n]", pKnjiga->vrsta);
-	printf("Unesite godinu izdanja: \n");
-	scanf("%d", pKnjiga->godina);
-
-	fp = fopen("knjiga.bin", "rb");
-	if (fp == NULL) {
-		fp = fopen("knjiga.bin", "wb");
-		brojKnjiga = 1;
-		fwrite(&brojKnjiga, sizeof(int), 1, fp);
-		fwrite(pKnjiga, sizeof(KNJIGA), 1, fp);
-		fclose(fp);
-	}
-
-	else {
-		fread(&brojKnjiga, sizeof(int), 1, fp);
-		KNJIGA knjiga;
-		int postoji = 0;
-		for (int i = 0; i < brojKnjiga; i++) {
-			fread(&knjiga, sizeof(KNJIGA), 1, fp);
-			if (strcmp(knjiga.naslov, pKnjiga->naslov) == 0) {
-				printf("Takva knjiga vec postoji u knjiznici.\n");
-				postoji = 1;
-				break;
-			}
-		}
-		if (!postoji) {
-			fclose(fp);
-			fp = fopen("knjiga.bin", "rb+");
-			if (fp == NULL) {
-				printf("Greska pri otvaranju datoteke!\n");
-				return 1;
-			}
-			brojKnjiga++;
-			fseek(fp, 0, SEEK_SET);
-			fwrite(&brojKnjiga, sizeof(int), 1, fp);
-			fseek(fp, 0, SEEK_END);
-			fwrite(pKnjiga, sizeof(KNJIGA), 1, fp);
-			fclose(fp);
-			//printf("Uspjesno dodana nova knjiga.\n");
-		}
-	}
-	/*
-	else {
-		fclose(fp);
-		fp = fopen("knjiga.bin", "rb+");
-		if (fp == NULL) {
-			printf("Greska pri otvaranju datoteke!\n");
-			exit(1);
-		}
-		else {
-			fseek(fp, 0, SEEK_SET);
-			fread(&brojKnjiga, sizeof(int), 1, fp);
-			brojKnjiga++;
-			fseek(fp, 0, SEEK_SET);
-			fwrite(&brojKnjiga, sizeof(int), 1, fp);
-			fseek(fp, 0, SEEK_END);
-			fwrite(pKnjiga, sizeof(KNJIGA), 1, fp);
-			fclose(fp);
-		}
-	}
-
-
-
-	//fclose(fp);
-	free(pKnjiga);
-	//system("cls");
-
-	return 0;
-}*/
