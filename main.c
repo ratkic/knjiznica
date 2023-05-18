@@ -6,8 +6,9 @@
 
 int main() {
 	int opcija;
-
-	do{
+	/*
+	//8
+	do {
 
 		printf("\033[1;37;45m               KNJIZNICA                      \n");
 		printf("\033[0m");
@@ -27,7 +28,7 @@ int main() {
 		printf("                                              \n");
 		printf("\033[0m");
 		printf("----------------------------------------------\n");
-		
+
 		printf("\n\nUnesi broj: ");
 		scanf("%d", &opcija);
 
@@ -36,7 +37,7 @@ int main() {
 
 
 	} while (opcija != 9);
-	
-	//dodajKnjigu();
+	*/
+	dodajKnjigu();
 	return 0;
 }
