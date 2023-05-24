@@ -5,12 +5,12 @@
 #include "header.h"
 
 int main() {
-	int opcija;
-	/*
+	int izbor = 0;
+	
 	//8
-	do {
+	do{
 
-		printf("\033[1;37;45m               KNJIZNICA                      \n");
+		printf("\033[1;3;37;45m               KNJIZNICA                      \n");
 		printf("\033[0m");
 		printf("----------------------------------------------\n");
 		//printf("\033[1;35m");
@@ -18,8 +18,7 @@ int main() {
 		printf("                                              \n");
 		printf("            1) Dodaj knjigu                   \n");
 		printf("            2) Ispisi knjige                  \n");
-		printf("            3) Pretrazi knjige                \n");
-		printf("            4) Pretrazi autora                \n");
+		printf("            3) Pretrazivanje                  \n");
 		printf("            5) Sortiraj knjige po naslovu     \n");
 		printf("            6) Sortiraj knjige po autoru      \n");
 		printf("            7) Izbrisi knjigu                 \n");
@@ -28,16 +27,19 @@ int main() {
 		printf("                                              \n");
 		printf("\033[0m");
 		printf("----------------------------------------------\n");
-
+		
 		printf("\n\nUnesi broj: ");
-		scanf("%d", &opcija);
+		scanf("%d", &izbor);
+
+		izbornik(izbor);
 
 
-		izbornik(opcija);
+	} while (izbor != 9);
+	
 
 
-	} while (opcija != 9);
-	*/
-	dodajKnjigu();
+	//dodajKnjigu();
+	//ispisKnjiga();
+
 	return 0;
 }
