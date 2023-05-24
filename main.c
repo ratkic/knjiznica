@@ -19,11 +19,11 @@ int main() {
 		printf("            1) Dodaj knjigu                   \n");
 		printf("            2) Ispisi knjige                  \n");
 		printf("            3) Pretrazivanje                  \n");
-		printf("            5) Sortiraj knjige po naslovu     \n");
-		printf("            6) Sortiraj knjige po autoru      \n");
-		printf("            7) Izbrisi knjigu                 \n");
-		printf("            8) Izbrisi datoteku               \n");
-		printf("            9) Izlaz                          \n");
+		printf("            4) Sortiraj knjige po naslovu     \n");
+		printf("            5) Sortiraj knjige po autoru      \n");
+		printf("            6) Izbrisi knjigu                 \n");
+		printf("            7) Izbrisi datoteku               \n");
+		printf("            8) Izlaz                          \n");
 		printf("                                              \n");
 		printf("\033[0m");
 		printf("----------------------------------------------\n");
