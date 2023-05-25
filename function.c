@@ -1,12 +1,14 @@
-#define _CRT_SECURE_NO_WARNINGS
+ï»¿#define _CRT_SECURE_NO_WARNINGS
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "header.h"
 
+static int brojKnjiga = 0;                      //5
 
-void izbornik(const char izbor) {
-	int odabir = 0;
+void izbornik(const char izbor) {               //11
+	//8
+	int odabir = 0;                             //4, 1
 	switch (izbor) {
 	case 1:
 		system("cls");
@@ -24,28 +26,28 @@ void izbornik(const char izbor) {
 		system("cls");
 		izlaz();
 		break;
-	/*
-	case 5:
-		system("cls");
-		sortirajNaslov();
-		break;
-	case 6:
-		system("cls");
-		sortirajAutora();
-		break;
-	case 7:
-		system("cls");
-		izbrisiKnjigu();
-		break;
-	case 8:
-		system("cls");
-		izbrisiDat();
-		break;
-	case 9:
-		system("cls");
-		izlaz();
-		break;
-		*/
+		/*
+		case 5:
+			system("cls");
+			sortirajNaslov();
+			break;
+		case 6:
+			system("cls");
+			sortirajAutora();
+			break;
+		case 7:
+			system("cls");
+			izbrisiKnjigu();
+			break;
+		case 8:
+			system("cls");
+			izbrisiDat();
+			break;
+		case 9:
+			system("cls");
+			izlaz();
+			break;
+			*/
 	default:
 		system("cls");
 		printf("\033[1;37;31m\nKrivi unos! Pokusajte ponovno: \033[0m\n\n");
@@ -58,8 +60,8 @@ int dodajKnjigu() {
 	FILE* fp = NULL;
 	KNJIGA* pKnjiga = NULL;                                 //9
 	pKnjiga = (KNJIGA*)malloc(sizeof(KNJIGA));              //14
-	int brojKnjiga;                                         //4
-	if (pKnjiga == NULL) {
+	//int brojKnjiga;                                        
+	if (pKnjiga == NULL) {                                  //15
 		printf("\033[1;37;31m\nGreska pri alokaciji memorije.\n");
 		return 1;
 	}
@@ -84,7 +86,7 @@ int dodajKnjigu() {
 	else {
 		fread(&brojKnjiga, sizeof(int), 1, fp);
 		KNJIGA knjiga;
-		int postoji = 0;
+		int postoji = 0;                                   //4, 1
 		for (int i = 0; i < brojKnjiga; i++) {
 			fread(&knjiga, sizeof(KNJIGA), 1, fp);
 			if (strcmp(knjiga.naslov, pKnjiga->naslov) == 0) {
@@ -121,12 +123,14 @@ int dodajKnjigu() {
 
 
 void ispisKnjiga() {
-	int brojKnjiga, i;
+	//int brojKnjiga;
+	int i;
 	FILE* fp = NULL;
-	KNJIGA* pKnjiga = NULL;
+	KNJIGA* pKnjiga = NULL;                                    //9
 	fp = fopen("knjiznica.bin", "rb");
-	if (fp == NULL) {                                 
-		printf("Repozitorij je prazan, probaj drugu opciju.\n");
+	
+	if (fp == NULL) {
+		perror("Repozitorij je prazan, probaj drugu opciju.\n");   //19
 		getch();
 		system("cls");
 		return;
@@ -135,6 +139,7 @@ void ispisKnjiga() {
 	fread(&brojKnjiga, sizeof(int), 1, fp);
 	if (brojKnjiga == 0) {
 		printf("Repozitorij je prazan, probaj drugu opciju.\n");
+		printf("\nUnesi bilo koji znak za povratak na izbornik:\n");
 		getch();
 		system("cls");
 		return;
@@ -158,9 +163,9 @@ void ispisKnjiga() {
 		printf("\033[1;35;47mVrsta:\033[0m %s\n", (pKnjiga + i)->vrsta);
 		printf("\033[1;35;47mGodina izdanja:\033[0m %d\n", (pKnjiga + i)->godina);
 	}
-	fclose(fp);
-	free(pKnjiga);
-	pKnjiga = NULL; //15
+	fclose(fp);                      
+	free(pKnjiga);                                                            //15
+	pKnjiga = NULL;                                                           //15
 	printf("\n\nUnesi bilo koji znak za povratak na izbornik:\n");
 	getch();
 	system("cls");
@@ -169,23 +174,25 @@ void ispisKnjiga() {
 }
 
 
-void pretrazivanje(int odabir) {
+//21
+void pretrazivanje(const int odabir) {                                   //11
 	KNJIGA* pKnjiga = NULL;
 	FILE* fp = NULL;
-	char pretraziNaslov[50], pretraziAutora[50], pretraziVrstu[30];
+	char pretraziNaslov[50], pretraziAutora[50], pretraziVrstu[30];       //12
 	int pretraziGodinu;
-	int brojKnjiga, flag = 0;
+	//int brojKnjiga;
+	int flag = 0;
 
 	//system("cls");
-	
+
 	fp = fopen("knjiznica.bin", "rb");
-	if (ferror(fp)) {                                   
-		printf("\033[1;37;31m\nGreska pri otvaranju datoteke.\n");
+	if (fp == NULL) {                                                    //19
+		perror("\033[1;37;31m\nGreska pri otvaranju datoteke.\n");
 		return 1;
 	}
 
 	fread(&brojKnjiga, sizeof(int), 1, fp);
-	pKnjiga = (KNJIGA*) malloc(sizeof(KNJIGA));
+	pKnjiga = (KNJIGA*)malloc(sizeof(KNJIGA));
 	if (pKnjiga == NULL) {
 		printf("\033[1;37;31m\nGreska pri alokaciji memorije.\n");
 		return 1;
@@ -201,13 +208,14 @@ void pretrazivanje(int odabir) {
 
 	//odabir = getch();
 	scanf("%d", &odabir);
-	// inicijalizacija polja knjiga koje æe se ispisati
-	KNJIGA* knjige = (KNJIGA*)malloc(brojKnjiga * sizeof(KNJIGA));
+
+	// inicijalizacija polja knjiga koje Ä‡e se ispisati
+	KNJIGA* knjige = (KNJIGA*)malloc(brojKnjiga * sizeof(KNJIGA));                     //13
 	if (knjige == NULL) {
 		printf("\033[1;37;31m\nGreska pri alokaciji memorije.\n");
 		return;
 	}
-	int brojPronadenihKnjiga = 0;
+	int brojPronadenihKnjiga = 0;                                                     //4, 1
 
 	switch (odabir) {
 	case 1:
@@ -238,14 +246,14 @@ void pretrazivanje(int odabir) {
 		for (int i = 0; i < brojKnjiga; i++) {
 			fread(pKnjiga, sizeof(KNJIGA), 1, fp);
 			if (strcmp(pKnjiga->autor, pretraziAutora) == 0) {
-				// ako je autor knjige jednak traženom autoru, dodaj knjigu u polje knjiga koje æe se ispisati
+				// ako je autor knjige jednak traÅ¾enom autoru, dodaj knjigu u polje knjiga koje Ä‡e se ispisati
 				*(knjige + brojPronadenihKnjiga) = *pKnjiga;
 				brojPronadenihKnjiga++;
 			}
 		}
 
 		if (brojPronadenihKnjiga > 0) {
-			// ispis svih knjiga koje su pronaðene
+			// ispis svih knjiga koje su pronaÄ‘ene
 			printf("\nPronadeno je %d knjiga autora %s:\n", brojPronadenihKnjiga, pretraziAutora);
 			for (int i = 0; i < brojPronadenihKnjiga; i++) {
 				printf("\033[1;35;47m\nNaslov:\033[0m %s", (knjige + i)->naslov);
@@ -265,14 +273,14 @@ void pretrazivanje(int odabir) {
 		for (int i = 0; i < brojKnjiga; i++) {
 			fread(pKnjiga, sizeof(KNJIGA), 1, fp);
 			if (strcmp(pKnjiga->vrsta, pretraziVrstu) == 0) {
-				// ako je autor knjige jednak traženom autoru, dodaj knjigu u polje knjiga koje æe se ispisati
+				// ako je autor knjige jednak traÅ¾enom autoru, dodaj knjigu u polje knjiga koje Ä‡e se ispisati
 				*(knjige + brojPronadenihKnjiga) = *pKnjiga;
 				brojPronadenihKnjiga++;
 			}
 		}
 
 		if (brojPronadenihKnjiga > 0) {
-			// ispis svih knjiga koje su pronaðene
+			// ispis svih knjiga koje su pronaÄ‘ene
 			printf("\nPronadeno je %d knjiga vrste %s:\n", brojPronadenihKnjiga, pretraziVrstu);
 			for (int i = 0; i < brojPronadenihKnjiga; i++) {
 				printf("\033[1;35;47m\nNaslov:\033[0m %s", (knjige + i)->naslov);
@@ -292,14 +300,14 @@ void pretrazivanje(int odabir) {
 		for (int i = 0; i < brojKnjiga; i++) {
 			fread(pKnjiga, sizeof(KNJIGA), 1, fp);
 			if (pKnjiga->godina == pretraziGodinu) {
-				// ako je autor knjige jednak traženom autoru, dodaj knjigu u polje knjiga koje æe se ispisati
+				// ako je autor knjige jednak traÅ¾enom autoru, dodaj knjigu u polje knjiga koje Ä‡e se ispisati
 				*(knjige + brojPronadenihKnjiga) = *pKnjiga;
 				brojPronadenihKnjiga++;
 			}
 		}
 
 		if (brojPronadenihKnjiga > 0) {
-			// ispis svih knjiga koje su pronaðene
+			// ispis svih knjiga koje su pronaÄ‘ene
 			printf("\nPronadeno je %d knjiga godine izdanja %d:\n", brojPronadenihKnjiga, pretraziGodinu);
 			for (int i = 0; i < brojPronadenihKnjiga; i++) {
 				printf("\033[1;35;47m\nNaslov:\033[0m %s", (knjige + i)->naslov);
@@ -324,12 +332,12 @@ void pretrazivanje(int odabir) {
 		printf("\nKnjiga nije dostupna\n");
 	}
 
-	free(knjige);
-	knjige = NULL;
+	free(knjige);                                                        //15
+	knjige = NULL;                                                       //15
 
-	fclose(fp);
-	free(pKnjiga);
-	pKnjiga = NULL;
+	fclose(fp); 
+	free(pKnjiga);                                                       //15
+	pKnjiga = NULL;                                                      //15
 	printf("\n\nUnesi bilo koji znak za povratak na izbornik:\n");
 	getch();
 	system("cls");
@@ -341,7 +349,7 @@ void pretrazivanje(int odabir) {
 
 
 void izlaz() {
-	char odabir[3];
+	char odabir[3];                                                     //12
 	printf("Zelite li izaci iz programa? (da/ne)\n");
 	while (1) {
 		scanf(" %2s", odabir);
@@ -390,7 +398,7 @@ void pretrazivanje(int kriterij) {
 	printf("5. Povratak u glavni izbornik\n");
 	//kriterij = getch();
 	scanf("%d", &kriterij);
-	// Izvršavanje pretrage
+	// IzvrÅ¡avanje pretrage
 	switch (kriterij) {
 	case 1:
 	{
@@ -525,6 +533,5 @@ int usporediGodinu(const void* a, const void* b) {
 }
 
 */
-
 
 
