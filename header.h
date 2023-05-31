@@ -14,19 +14,20 @@ typedef struct knjiga{
 void izbornik(const char);
 int dodajKnjigu();
 void ispisKnjiga();
-void pretrazivanje(int);
+void pretrazivanje(const int);
 /*
 int usporediNaslov(const void*, const void*);
 int usporediAutor(const void*, const void*);
 int usporediVrstu(const void*, const void*);
 int usporediGodinu(const void*, const void*);
 */
-/*
-void sortirajNaslov();
-void sortirajAutora();
+
+void sortirajAutora(KNJIGA*, const int);
+void ispisAutora();
+void sortirajNaslov(KNJIGA*, const int);
+void ispisNaslova();
 void izbrisiKnjigu();
 void izbrisiDat();
-*/
 void izlaz();
 
 
