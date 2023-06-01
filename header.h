@@ -3,7 +3,8 @@
 
 
 //10
-typedef struct knjiga{
+//3
+typedef struct knjiga {
 	char naslov[50];
 	char autor[50];
 	char vrsta[30];
@@ -15,13 +16,6 @@ void izbornik(const char);
 int dodajKnjigu();
 void ispisKnjiga();
 void pretrazivanje(const int);
-/*
-int usporediNaslov(const void*, const void*);
-int usporediAutor(const void*, const void*);
-int usporediVrstu(const void*, const void*);
-int usporediGodinu(const void*, const void*);
-*/
-
 void sortirajAutora(KNJIGA*, const int);
 void ispisAutora();
 void sortirajNaslov(KNJIGA*, const int);

@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+ï»¿#define _CRT_SECURE_NO_WARNINGS
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -8,7 +8,7 @@ static int brojKnjiga = 0;               //5
 
 void izbornik(const char izbor) {        //11
 	//8
-	int odabir = 0;                      //4, 1
+	int odabir = 0;                      //4
 	switch (izbor) {
 	case 1:
 		system("cls");
@@ -80,7 +80,7 @@ int dodajKnjigu() {
 	else {
 		fread(&brojKnjiga, sizeof(int), 1, fp);
 		KNJIGA knjiga;
-		int postoji = 0;                                    //4, 1
+		int postoji = 0;                                    //4
 		for (int i = 0; i < brojKnjiga; i++) {
 			fread(&knjiga, sizeof(KNJIGA), 1, fp);
 			if (strcmp(knjiga.naslov, pKnjiga->naslov) == 0) {
@@ -122,7 +122,7 @@ void ispisKnjiga() {
 	FILE* fp = NULL;
 	KNJIGA* pKnjiga = NULL;                                           //9
 	fp = fopen("knjiznica.bin", "rb");                                //16
-	if (fp == NULL) {                                 
+	if (fp == NULL) {
 		perror("Error");                                              //19
 		system("cls");
 		exit(EXIT_FAILURE);
@@ -175,7 +175,7 @@ void pretrazivanje(const int odabir) {                                //11
 	int brojKnjiga, flag = 0;
 
 	//system("cls");
-	
+
 	fp = fopen("knjiznica.bin", "rb");                                   //16
 	if (fp == NULL) {                                                    //19
 		perror("Error");
@@ -184,7 +184,7 @@ void pretrazivanje(const int odabir) {                                //11
 	}
 
 	fread(&brojKnjiga, sizeof(int), 1, fp);
-	pKnjiga = (KNJIGA*) malloc(sizeof(KNJIGA));                      //13
+	pKnjiga = (KNJIGA*)malloc(sizeof(KNJIGA));                      //13
 	if (pKnjiga == NULL) {
 		printf("\033[1;37;31m\nGreska pri alokaciji memorije.\n");
 		return 1;
@@ -200,13 +200,13 @@ void pretrazivanje(const int odabir) {                                //11
 
 	//odabir = getch();
 	scanf("%d", &odabir);
-	// inicijalizacija polja knjiga koje æe se ispisati
+	// inicijalizacija polja knjiga koje Ä‡e se ispisati
 	KNJIGA* knjige = (KNJIGA*)malloc(brojKnjiga * sizeof(KNJIGA));     //13
 	if (knjige == NULL) {
 		printf("\033[1;37;31m\nGreska pri alokaciji memorije.\n");
 		return;
 	}
-	int brojPronadenihKnjiga = 0;                                      //4, 1
+	int brojPronadenihKnjiga = 0;                                      //4
 
 	switch (odabir) {
 	case 1:
@@ -219,14 +219,14 @@ void pretrazivanje(const int odabir) {                                //11
 		for (int i = 0; i < brojKnjiga; i++) {
 			fread(pKnjiga, sizeof(KNJIGA), 1, fp);
 			if (strcmp(pKnjiga->naslov, pretraziNaslov) == 0) {
-				// ako je naslov knjige jednak traženom naslovu, dodaj knjigu u polje knjiga koje æe se ispisati
+				// ako je naslov knjige jednak traÅ¾enom naslovu, dodaj knjigu u polje knjiga koje Ä‡e se ispisati
 				*(knjige + brojPronadenihKnjiga) = *pKnjiga;
 				brojPronadenihKnjiga++;
 			}
 		}
 
 		if (brojPronadenihKnjiga > 0) {
-			// ispis svih knjiga koje su pronaðene
+			// ispis svih knjiga koje su pronaÄ‘ene
 			printf("\nPronadeno je %d knjiga autora %s:\n", brojPronadenihKnjiga, pretraziNaslov);
 			for (int i = 0; i < brojPronadenihKnjiga; i++) {
 				printf("\033[1;35;47m\nNaslov:\033[0m \033[1;35m %s \033[0m", (knjige + i)->naslov);
@@ -342,7 +342,7 @@ void pretrazivanje(const int odabir) {                                //11
 
 
 //20
-void sortirajAutora(KNJIGA * pKnjiga, const int brojKnjiga) {
+void sortirajAutora(KNJIGA* pKnjiga, const int brojKnjiga) {
 	int j, i;
 	KNJIGA* temp = (KNJIGA*)malloc(brojKnjiga * sizeof(KNJIGA));                  //14
 
@@ -622,167 +622,3 @@ void izlaz() {
 }
 
 
-
-/*
-void pretrazivanje(int kriterij) {
-	FILE* fp = fopen("knjiznica.bin", "rb");
-	if (fp == NULL) {
-		printf("\nGreska.\n");
-		return;
-	}
-
-	int brojKnjiga;
-	fread(&brojKnjiga, sizeof(int), 1, fp);
-
-	KNJIGA* knjige = (KNJIGA*)malloc(brojKnjiga * sizeof(KNJIGA));
-	if (knjige == NULL) {
-		printf("Greska.\n");
-		fclose(fp);
-		return;
-	}
-
-	fread(knjige, sizeof(KNJIGA), brojKnjiga, fp);
-	fclose(fp);
-
-	system("cls");
-	printf("1. Pretrazivanje po imenu\n");
-	printf("2. Pretrazivanje po autoru\n");
-	printf("3. Pretrazivanje po vrsti\n");
-	printf("4. Pretrazivanje po godini\n");
-	printf("5. Povratak u glavni izbornik\n");
-	//kriterij = getch();
-	scanf("%d", &kriterij);
-	// Izvršavanje pretrage
-	switch (kriterij) {
-	case 1:
-	{
-		char kljucNaslov[50];
-		printf("Unesite naslov trazene knjige: ");
-		scanf(" %49[^\n]", kljucNaslov);
-
-		qsort(knjige, brojKnjiga, sizeof(KNJIGA), usporediNaslov);
-
-		KNJIGA* trazeniNaslov;
-		trazeniNaslov = bsearch(kljucNaslov, knjige, brojKnjiga, sizeof(KNJIGA), usporediNaslov);
-
-		if (trazeniNaslov != NULL) {
-			printf("\033[1;35;47m\nNaslov:\033[0m \033[1;35m %s \033[0m", trazeniNaslov->naslov);
-			printf("\033[1;35;47m\nAutor:\033[0m %s", trazeniNaslov->autor);
-			printf("\033[1;35;47m\nVrsta:\033[0m %s", trazeniNaslov->vrsta);
-			printf("\033[1;35;47m\nGodina:\033[0m %d\n", trazeniNaslov->godina);
-		}
-		else {
-			printf("\nNisam nasao trazenu knjigu.\n");
-		}
-		free(knjige);
-		break;
-	}
-	case 2:
-	{
-		char kljucAutor[50];
-		printf("Unesite ime autora trazene knjige: ");
-		scanf(" %49[^\n]", kljucAutor);
-
-		// Sortiranje knjiga prema autoru
-		qsort(knjige, brojKnjiga, sizeof(KNJIGA), usporediAutor);
-
-		KNJIGA *trazeniAutor;
-		trazeniAutor = bsearch(kljucAutor, knjige, brojKnjiga, sizeof(KNJIGA), usporediAutor);
-
-		if (trazeniAutor != NULL) {
-			printf("\033[1;35;47m\nNaslov:\033[0m %s", trazeniAutor->naslov);
-			printf("\033[1;35;47m\nAutor:\033[0m \033[1;35m %s \033[0m", trazeniAutor->autor);
-			printf("\033[1;35;47m\nVrsta:\033[0m %s", trazeniAutor->vrsta);
-			printf("\033[1;35;47m\nGodina:\033[0m %d\n", trazeniAutor->godina);
-		}
-		else {
-			printf("\nNisam nasao trazenu knjigu.\n");
-		}
-		free(knjige);
-		break;
-	}
-	case 3:
-	{
-		char kljucVrsta[30];
-		printf("Unesite vrstu trazene knjige: ");
-		scanf(" %29[^\n]", kljucVrsta);
-
-		// Sortiranje knjiga prema vrsti
-		qsort(knjige, brojKnjiga, sizeof(KNJIGA), usporediVrstu);
-
-		KNJIGA *trazenaVrsta;
-		trazenaVrsta = bsearch(kljucVrsta, knjige, brojKnjiga, sizeof(KNJIGA), usporediVrstu);
-
-		if (trazenaVrsta != NULL) {
-			printf("\033[1;35;47m\nNaslov:\033[0m %s", trazenaVrsta->naslov);
-			printf("\033[1;35;47m\nAutor:\033[0m %s", trazenaVrsta->autor);
-			printf("\033[1;35;47m\nVrsta:\033[0m \033[1;35m %s \033[0m", trazenaVrsta->vrsta);
-			printf("\033[1;35;47m\nGodina:\033[0m %d\n", trazenaVrsta->godina);
-		}
-		else {
-			printf("\nNisam nasao trazenu knjigu.\n");
-		}
-		free(knjige);
-		break;
-	}
-	case 4:
-	{
-		int trazenaGodina;
-		printf("Unesite godinu izdanja trazene knjige: ");
-		scanf("%d", &trazenaGodina);
-
-		// Sortiranje knjiga prema godini izdanja
-		qsort(knjige, brojKnjiga, sizeof(KNJIGA), usporediGodinu);
-
-		KNJIGA kljuc = { .godina = trazenaGodina };
-		KNJIGA* rezultat = bsearch(&kljuc, knjige, brojKnjiga, sizeof(KNJIGA), usporediGodinu);
-
-		if (rezultat != NULL) {
-			printf("\033[1;35;47m\nNaslov:\033[0m %s", rezultat->naslov);
-			printf("\033[1;35;47m\nAutor:\033[0m %s", rezultat->autor);
-			printf("\033[1;35;47m\nVrsta:\033[0m %s", rezultat->vrsta);
-			printf("\033[1;35;47m\nGodina:\033[0m \033[1;35m %d \033[0m\n", rezultat->godina);
-		}
-		else {
-			printf("\nNisam nasao trazenu knjigu.\n");
-		}
-		free(knjige);
-		break;
-	}
-	case 5:
-		free(knjige);
-		system("cls");
-		return;
-		break;
-	default:
-		system("cls");
-		printf("\nKrivi unos, molim pokusajte ponovno.\n\n");
-		free(knjige);
-		break;
-	}
-}
-
-int usporediNaslov(const void* a, const void* b) {
-	const KNJIGA* knjigaA = (const KNJIGA*)a;
-	const KNJIGA* knjigaB = (const KNJIGA*)b;
-	return strcmp(knjigaA->naslov, knjigaB->naslov);
-}
-
-int usporediAutor(const void* a, const void* b) {
-	const KNJIGA* knjigaA = (const KNJIGA*)a;
-	const KNJIGA* knjigaB = (const KNJIGA*)b;
-	return strcmp(knjigaA->autor, knjigaB->autor);
-}
-
-int usporediVrstu(const void* a, const void* b) {
-	const KNJIGA* knjigaA = (const KNJIGA*)a;
-	const KNJIGA* knjigaB = (const KNJIGA*)b;
-	return strcmp(knjigaA->vrsta, knjigaB->vrsta);
-}
-
-int usporediGodinu(const void* a, const void* b) {
-	const KNJIGA* knjigaA = (const KNJIGA*)a;
-	const KNJIGA* knjigaB = (const KNJIGA*)b;
-	return knjigaA->godina - knjigaB->godina;
-}
-*/
