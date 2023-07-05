@@ -3,12 +3,11 @@
 
 
 //10
-//3
-typedef struct knjiga {
+typedef struct knjiga{
 	char naslov[50];
 	char autor[50];
 	char vrsta[30];
-	int godina; //ili char
+	int godina;
 }KNJIGA;
 
 

@@ -6,14 +6,13 @@
 
 int main() {
 	int izbor = 0;
-
+	
 	//8
-	do {
+	do{
 
 		printf("\033[1;3;37;45m               KNJIZNICA                      \n");
 		printf("\033[0m");
 		printf("----------------------------------------------\n");
-		//printf("\033[1;35m");
 		printf("\033[1;35;47m");
 		printf("                                              \n");
 		printf("            1) Dodaj knjigu                   \n");
@@ -27,7 +26,7 @@ int main() {
 		printf("                                              \n");
 		printf("\033[0m");
 		printf("----------------------------------------------\n");
-
+		
 		printf("\n\nUnesi broj: ");
 		scanf("%d", &izbor);
 
@@ -35,7 +34,7 @@ int main() {
 
 
 	} while (izbor != 9);
-
+	
 
 	return 0;
 }
